@@ -13,13 +13,19 @@
             margin: 0;
             padding: 0;
             text-align: center;
+            color: #333;
             background: url('https://picsum.photos/1600/900?random') no-repeat center center fixed;
-            backdrop-filter: blur(3px);
             background-size: cover;
+            backdrop-filter: blur(3px);
+            display: flex;
+            justify-content: center;  /* Centers horizontally */
+            align-items: center;  /* Centers vertically */
+            height: 100vh;  /* Full viewport height */
+            flex-direction: column;  /* Stack elements vertically */
             position: relative;
         }
 
-        /* Overlay for better readability */
+        /* Overlay for readability */
         body::before {
             content: "";
             position: absolute;
@@ -27,7 +33,13 @@
             left: 0;
             width: 100%;
             height: 100%;
+            background: rgba(255, 255, 255, 0.7);
             z-index: -1;
+        }
+        
+        /* Keeps content centered */
+        #content-wrapper {
+            max-width: 90%;
         }
 
         h1 {
