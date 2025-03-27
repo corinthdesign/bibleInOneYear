@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bible in One Year</title>
     
+    <!-- Preconnect for Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -17,25 +18,27 @@
             padding: 0;
             text-align: center;
             color: #333;
-            background: url('https://picsum.photos/1600/900?random') no-repeat center center fixed;
-            background-size: cover;
             display: flex;
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            height: 100vh; /* Full viewport height */
-            flex-direction: column; /* Stack elements vertically */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
             position: relative;
+            opacity: 0; /* Hide page initially */
+            transition: opacity 0.8s ease-in-out; /* Fade in effect */
         }
 
-        /* Overlay for Readability */
-        body::before {
-            content: "";
-            position: absolute;
+        /* Background Image */
+        .background {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.7);
+            background: no-repeat center center fixed;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
             z-index: -1;
         }
 
@@ -59,8 +62,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0.5rem; /* Closer spacing */
-            flex-wrap: wrap; /* Allows wrapping if needed */
+            gap: 0.5rem;
+            flex-wrap: wrap;
             max-width: 90%;
         }
 
@@ -68,17 +71,17 @@
         .Data h4 {
             font-size: 1.3rem;
             font-weight: 500;
-            background: linear-gradient(135deg, #ffffff, #f8f8f8); /* Subtle gradient */
+            background: linear-gradient(135deg, #ffffff, #f8f8f8);
             color: black;
             padding: 0.8rem 1.2rem;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            opacity: 0; /* Initially hidden for fade-in effect */
+            opacity: 0;
             animation: fadeIn 0.8s ease-out forwards;
-            max-width: 35%; /* Expands up to 35% of the container */
-            min-width: 180px; /* Ensures small screens still have space */
-            white-space: normal; /* Allows line breaks for long text */
-            overflow-wrap: break-word; /* Prevents text from overflowing */
+            max-width: 35%;
+            min-width: 180px;
+            white-space: normal;
+            overflow-wrap: break-word;
         }
 
         /* Staggered Fade-In Effect */
@@ -116,11 +119,28 @@
 </head>
 <body>
 
+    <div class="background"></div>
+
     <h1>Bible in One Year</h1>
     <div id="data-container-1"></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', fetchData);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBackgroundImage();
+            fetchData();
+        });
+
+        function loadBackgroundImage() {
+            const imageUrl = 'https://picsum.photos/1600/900?random';
+            const backgroundDiv = document.querySelector('.background');
+            const img = new Image();
+            img.src = imageUrl;
+            img.onload = () => {
+                backgroundDiv.style.backgroundImage = `url(${imageUrl})`;
+                backgroundDiv.style.opacity = "1"; // Fade in background
+                document.body.style.opacity = "1"; // Fade in entire page
+            };
+        }
 
         function fetchData() {
             const jsonFile = 'https://raw.githubusercontent.com/corinthdesign/bibleInOneYear/main/bibleInOneYear.json';
@@ -140,7 +160,7 @@
 
                 // Function to replace commas with line breaks
                 function formatScripture(text) {
-                    return text.replace(/,\s*/g, '<br>'); // Replaces commas and spaces with a line break
+                    return text.replace(/,\s*/g, '<br>');
                 }
 
                 const output = `
@@ -159,11 +179,10 @@
             }
         }
 
-        // Function to get the day of the year
         function getDayOfYear(date) {
             const start = new Date(date.getFullYear(), 0, 0);
             const diff = date - start;
-            const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+            const oneDay = 24 * 60 * 60 * 1000;
             return Math.floor(diff / oneDay);
         }
     </script>
