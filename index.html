@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bible in One Year</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap&family=Boldonse" rel="stylesheet">
+    
+    <!-- Custom Boldonse Font -->
+    <link href="https://fonts.cdnfonts.com/css/boldonse" rel="stylesheet">
+
     <style>
-        /* Global Styling */
+        /* General Styles */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -16,16 +18,15 @@
             color: #333;
             background: url('https://picsum.photos/1600/900?random') no-repeat center center fixed;
             background-size: cover;
-            backdrop-filter: blur(3px);
             display: flex;
-            justify-content: center;  /* Centers horizontally */
-            align-items: center;  /* Centers vertically */
-            height: 100vh;  /* Full viewport height */
-            flex-direction: column;  /* Stack elements vertically */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100vh; /* Full viewport height */
+            flex-direction: column; /* Stack elements vertically */
             position: relative;
         }
 
-        /* Overlay for readability */
+        /* Overlay for Readability */
         body::before {
             content: "";
             position: absolute;
@@ -36,65 +37,75 @@
             background: rgba(255, 255, 255, 0.7);
             z-index: -1;
         }
-        
-        /* Keeps content centered */
-        #content-wrapper {
-            max-width: 90%;
-        }
 
+        /* Title Styling */
         h1 {
+            font-family: 'Boldonse', sans-serif;
             font-size: 2.5rem;
-            font-weight: 600;
-            font-family: 'Boldonse', 'Inter', sans-serif;
-            margin: 1rem 0;
-            color: #000;
-            text-shadow: 3px 0px 0px #fff;
+            font-weight: bold;
+            text-shadow: 1px 0 0 #fff;
         }
 
         #BibleData h4 {
-            margin: 0.5rem auto;
+            margin: 0 1rem;
             font-weight: bold;
-            font-size: 1.8rem;
-            color: #000;
-            text-shadow: 2px 0px 0px #fff;
+            font-size: 2.2rem;
+            text-shadow: 1px 0 0 #fff;
         }
 
+        /* Scripture Container */
         .scriptures {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0.5rem; /* Reduces spacing between blocks */
-            max-width: 95%;
-            overflow-x: auto; /* Allows horizontal scrolling on smaller screens */
+            gap: 0.5rem; /* Closer spacing */
+            flex-wrap: nowrap; /* Prevent wrapping unless necessary */
+            max-width: 90%;
+            overflow-x: auto; /* Allows scrolling if content overflows */
         }
 
+        /* Individual Scripture Blocks */
         .Data h4 {
             font-size: 1.3rem;
             font-weight: 500;
-            background: #ffedd8;
-            padding: 0.8rem 1.2rem; /* Tighter padding */
+            background: linear-gradient(135deg, #ffffff, #f8f8f8); /* Subtle gradient */
+            color: black;
+            padding: 0.8rem 1.2rem;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            white-space: nowrap; /* Prevents text wrapping */
+            opacity: 0; /* Initially hidden for fade-in effect */
+            animation: fadeIn 0.8s ease-out forwards;
         }
 
+        /* Staggered Fade-In Effect */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .Data:nth-child(1) h4 { animation-delay: 0.2s; }
+        .Data:nth-child(2) h4 { animation-delay: 0.4s; }
+        .Data:nth-child(3) h4 { animation-delay: 0.6s; }
+
         /* Mobile Styles */
-        @media (max-width: 450px) {
-            h1 {
-                font-size: 2rem;
-            }
-
+        @media (max-width: 600px) {
             #BibleData h4 {
-                font-size: 1.4rem;
+                font-size: 1.5rem;
             }
-
             .scriptures {
                 flex-wrap: wrap;
             }
-
             .Data h4 {
                 font-size: 1.1rem;
                 padding: 0.6rem 1rem;
-                white-space: normal; /* Allows text wrapping on small screens */
+                white-space: normal; /* Allow wrapping on small screens */
             }
         }
     </style>
@@ -122,22 +133,34 @@
 
             if (todayData) {
                 const container = document.getElementById('data-container-1');
-                container.innerHTML = `
+
+                // Function to replace commas with line breaks
+                function formatScripture(text) {
+                    return text.replace(/,\s*/g, '<br>'); // Replaces commas and spaces with a line break
+                }
+
+                const output = `
                     <div id="BibleData"><h4>Day ${todayData.Day} | Today's Passages</h4></div>
+
                     <div class="scriptures">
-                        <div class="Data"><h4>📖 ${todayData["Old Testament"]}</h4></div>
-                        <div class="Data"><h4>📖 ${todayData["New Testament"]}</h4></div>
-                        <div class="Data"><h4>📖 ${todayData["Psalms & Proverbs"]}</h4></div>
+                        <div class="Data"><h4>${formatScripture(todayData["Old Testament"])} ∙ </h4></div>
+                        <div class="Data"><h4>${formatScripture(todayData["New Testament"])} ∙ </h4></div>
+                        <div class="Data"><h4>${formatScripture(todayData["Psalms & Proverbs"])}</h4></div>
                     </div>
                 `;
+
+                container.innerHTML = output;
             } else {
                 console.error('No data found for today.');
             }
         }
 
+        // Function to get the day of the year
         function getDayOfYear(date) {
             const start = new Date(date.getFullYear(), 0, 0);
-            return Math.floor((date - start) / (1000 * 60 * 60 * 24));
+            const diff = date - start;
+            const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+            return Math.floor(diff / oneDay);
         }
     </script>
 
