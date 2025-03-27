@@ -26,6 +26,7 @@
             position: relative;
             opacity: 0; /* Hide page initially */
             transition: opacity 0.8s ease-in-out; /* Fade in effect */
+            background-color: white; /* Fallback background */
         }
 
         /* Background Image */
@@ -37,9 +38,19 @@
             height: 100%;
             background: no-repeat center center fixed;
             background-size: cover;
-            background-color: #fff;
-            opacity: .75;
+            opacity: 0;
             transition: opacity 1s ease-in-out;
+            z-index: -2;
+        }
+
+        /* Transparent White Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.75); /* 75% opacity white */
             z-index: -1;
         }
 
@@ -121,6 +132,7 @@
 <body>
 
     <div class="background"></div>
+    <div class="overlay"></div>
 
     <h1>Bible in One Year</h1>
     <div id="data-container-1"></div>
