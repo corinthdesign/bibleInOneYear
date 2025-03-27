@@ -7,25 +7,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* Global Styling */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 2rem;
+            padding: 0;
             text-align: center;
-            background-color: #f9f9f9;
             color: #333;
+            background: url('https://source.unsplash.com/1600x900/?landscape,nature,sunrise') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+
+        /* Overlay for better readability */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: -1;
         }
 
         h1 {
             font-size: 2.5rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin: 1rem 0;
+            color: #184e77;
         }
 
         #BibleData h4 {
             margin: 0.5rem auto;
             font-weight: bold;
             font-size: 1.8rem;
+            color: #1a759f;
         }
 
         .scriptures {
@@ -39,12 +56,13 @@
         .Data h4 {
             font-size: 1.3rem;
             font-weight: 500;
-            background: white;
+            background: #ffedd8;
             padding: 1rem;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             width: 90%;
             max-width: 600px;
+            color: #4a3f35;
         }
 
         /* Mobile Styles */
