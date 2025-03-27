@@ -59,9 +59,8 @@
             justify-content: center;
             align-items: center;
             gap: 0.5rem; /* Closer spacing */
-            flex-wrap: nowrap; /* Prevent wrapping unless necessary */
+            flex-wrap: wrap; /* Allows wrapping if needed */
             max-width: 90%;
-            overflow-x: auto; /* Allows scrolling if content overflows */
         }
 
         /* Individual Scripture Blocks */
@@ -73,9 +72,12 @@
             padding: 0.8rem 1.2rem;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            white-space: nowrap; /* Prevents text wrapping */
             opacity: 0; /* Initially hidden for fade-in effect */
             animation: fadeIn 0.8s ease-out forwards;
+            max-width: 35%; /* Expands up to 35% of the container */
+            min-width: 180px; /* Ensures small screens still have space */
+            white-space: normal; /* Allows line breaks for long text */
+            overflow-wrap: break-word; /* Prevents text from overflowing */
         }
 
         /* Staggered Fade-In Effect */
@@ -100,12 +102,13 @@
                 font-size: 1.5rem;
             }
             .scriptures {
-                flex-wrap: wrap;
+                flex-direction: column;
+                align-items: center;
             }
             .Data h4 {
                 font-size: 1.1rem;
                 padding: 0.6rem 1rem;
-                white-space: normal; /* Allow wrapping on small screens */
+                max-width: 90%;
             }
         }
     </style>
