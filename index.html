@@ -1,206 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bible in One Year</title>
-    
-    <!-- Preconnect for Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bible in One Year</title>
 
-    <style>
-        /* General Styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            position: relative;
-            opacity: 0; /* Hide page initially */
-            transition: opacity 0.8s ease-in-out; /* Fade in effect */
-            background-color: white; /* Fallback background */
-        }
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"/>
 
-        /* Background Image */
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: no-repeat center center fixed;
-            background-size: cover;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            z-index: -2;
-        }
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      position: relative;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      background-color: white;
+    }
 
-        /* Transparent Black Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.55); /* 75% opacity white */
-            z-index: -1;
-        }
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: no-repeat center center fixed;
+      background-size: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      z-index: -2;
+    }
 
-        /* Title Styling */
-        h1 {
-            font-family: 'Boldonse', sans-serif;
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 1px 0 0 #000;
-        }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.75);
+      z-index: -1;
+    }
 
-        #BibleData h4 {
-            margin: 0 1rem;
-            font-weight: bold;
-            font-size: 2.2rem;
-            color: #fff;
-            text-shadow: 1px 0 0 #000;
-        }
+    h1 {
+      font-family: 'Boldonse', sans-serif;
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-shadow: 1px 0 0 #fff;
+    }
 
-        /* Scripture Container */
-        .scriptures {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            max-width: 90%;
-        }
+    #BibleData h4 {
+      margin: 0 1rem;
+      font-weight: bold;
+      font-size: 2.2rem;
+      text-shadow: 1px 0 0 #fff;
+    }
 
-        /* Individual Scripture Blocks */
-        .Data h4 {
-            font-size: 1.3rem;
-            font-weight: 500;
-            background: linear-gradient(135deg, #ffffff, #f8f8f8);
-            color: black;
-            padding: 0.8rem 1.2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out forwards;
-            max-width: 35%;
-            min-width: 180px;
-            white-space: normal;
-            overflow-wrap: break-word;
-        }
+    .scriptures {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      max-width: 90%;
+    }
 
-        /* Staggered Fade-In Effect */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .Data {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 35%;
+      min-width: 180px;
+      flex: 1;
+    }
 
-        .Data:nth-child(1) h4 { animation-delay: 0.2s; }
-        .Data:nth-child(2) h4 { animation-delay: 0.4s; }
-        .Data:nth-child(3) h4 { animation-delay: 0.6s; }
+    .Data h4 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      background: linear-gradient(135deg, #ffffff, #f8f8f8);
+      color: black;
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out forwards;
+      white-space: normal;
+      overflow-wrap: break-word;
+      cursor: pointer;
+    }
 
-        /* Mobile Styles */
-        @media (max-width: 600px) {
-            #BibleData h4 {
-                font-size: 1.5rem;
-            }
-            .scriptures {
-                flex-direction: column;
-                align-items: center;
-            }
-            .Data h4 {
-                font-size: 1.1rem;
-                padding: 0.6rem 1rem;
-                max-width: 90%;
-            }
-        }
-    </style>
+    .Data .verse-text {
+      font-size: 1rem;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      background: #ffffffda;
+      border-radius: 6px;
+      color: #333;
+      text-align: left;
+      max-width: 100%;
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .Data:nth-child(1) h4 { animation-delay: 0.2s; }
+    .Data:nth-child(2) h4 { animation-delay: 0.4s; }
+    .Data:nth-child(3) h4 { animation-delay: 0.6s; }
+
+    @media (max-width: 600px) {
+      #BibleData h4 {
+        font-size: 1.5rem;
+      }
+
+      .scriptures {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .Data {
+        max-width: 90%;
+      }
+
+      .Data h4 {
+        font-size: 1.1rem;
+        padding: 0.6rem 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="background"></div>
-    <div class="overlay"></div>
+  <div class="background"></div>
+  <div class="overlay"></div>
 
-    <h1>Bible in One Year</h1>
-    <div id="data-container-1"></div>
+  <h1>Bible in One Year</h1>
+  <div id="data-container-1"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            loadBackgroundImage();
-            fetchData();
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadBackgroundImage();
+      fetchData();
+    });
+
+    function loadBackgroundImage() {
+      const imageUrl = 'https://picsum.photos/1600/900?random';
+      const backgroundDiv = document.querySelector('.background');
+      const img = new Image();
+      img.src = imageUrl;
+      img.onload = () => {
+        backgroundDiv.style.backgroundImage = `url(${imageUrl})`;
+        backgroundDiv.style.opacity = "1";
+        document.body.style.opacity = "1";
+      };
+    }
+
+    function fetchData() {
+      const jsonFile = 'https://raw.githubusercontent.com/corinthdesign/bibleInOneYear/main/bibleInOneYear.json';
+
+      fetch(jsonFile)
+        .then(response => response.json())
+        .then(data => displayData(data))
+        .catch(error => console.error('Error fetching data:', error));
+    }
+
+    function displayData(data) {
+      const today = getDayOfYear(new Date());
+      const todayData = data.find(entry => entry.Day === today);
+
+      if (todayData) {
+        const container = document.getElementById('data-container-1');
+
+        // Replace commas with line breaks
+        function formatScripture(text) {
+          return text.split(',').map(ref => ref.trim());
+        }
+
+        const output = `
+          <div id="BibleData"><h4>Day ${todayData.Day} | Today's Passages</h4></div>
+          <div class="scriptures">
+            ${createScriptureBlock("Old Testament", todayData["Old Testament"])}
+            ${createScriptureBlock("New Testament", todayData["New Testament"])}
+            ${createScriptureBlock("Psalms & Proverbs", todayData["Psalms & Proverbs"])}
+          </div>
+        `;
+
+        container.innerHTML = output;
+        attachVerseClickHandlers();
+      }
+    }
+
+    function createScriptureBlock(label, references) {
+      const formattedRefs = formatScripture(references);
+      return `
+        <div class="Data">
+          <h4 data-refs='${JSON.stringify(formattedRefs)}'>${formattedRefs.join('<br>')}</h4>
+          <div class="verse-text"></div>
+        </div>
+      `;
+    }
+
+    function attachVerseClickHandlers() {
+      const headers = document.querySelectorAll('.Data h4');
+      headers.forEach(header => {
+        header.addEventListener('click', async () => {
+          const verseDiv = header.nextElementSibling;
+          if (verseDiv.style.display === 'block') {
+            verseDiv.style.display = 'none';
+            return;
+          }
+
+          if (verseDiv.innerHTML.trim() === '') {
+            const refs = JSON.parse(header.dataset.refs);
+            const versesHtml = await Promise.all(
+              refs.map(ref => fetchVerse(ref))
+            );
+            verseDiv.innerHTML = versesHtml.join("<hr>");
+          }
+
+          verseDiv.style.display = 'block';
         });
+      });
+    }
 
-        function loadBackgroundImage() {
-            const imageUrl = 'https://picsum.photos/1600/900?random';
-            const backgroundDiv = document.querySelector('.background');
-            const img = new Image();
-            img.src = imageUrl;
-            img.onload = () => {
-                backgroundDiv.style.backgroundImage = `url(${imageUrl})`;
-                backgroundDiv.style.opacity = "1"; // Fade in background
-                document.body.style.opacity = "1"; // Fade in entire page
-            };
-        }
-
-        function fetchData() {
-            const jsonFile = 'https://raw.githubusercontent.com/corinthdesign/bibleInOneYear/main/bibleInOneYear.json';
-
-            fetch(jsonFile)
-                .then(response => response.json())
-                .then(data => displayData(data))
-                .catch(error => console.error('Error fetching data:', error));
-        }
-
-        function displayData(data) {
-            const today = getDayOfYear(new Date());
-            const todayData = data.find(entry => entry.Day === today);
-
-            if (todayData) {
-                const container = document.getElementById('data-container-1');
-
-                // Function to replace commas with line breaks
-                function formatScripture(text) {
-                    return text.replace(/,\s*/g, '<br>');
-                }
-
-                const output = `
-                    <div id="BibleData"><h4>Day ${todayData.Day} | Today's Passages</h4></div>
-
-                    <div class="scriptures">
-                        <div class="Data"><h4>${formatScripture(todayData["Old Testament"])} ∙ </h4></div>
-                        <div class="Data"><h4>${formatScripture(todayData["New Testament"])} ∙ </h4></div>
-                        <div class="Data"><h4>${formatScripture(todayData["Psalms & Proverbs"])}</h4></div>
-                    </div>
-                `;
-
-                container.innerHTML = output;
-            } else {
-                console.error('No data found for today.');
-            }
-        }
-
-        function getDayOfYear(date) {
-            const start = new Date(date.getFullYear(), 0, 0);
-            const diff = date - start;
-            const oneDay = 24 * 60 * 60 * 1000;
-            return Math.floor(diff / oneDay);
-        }
-    </script>
-
-</body>
-</html>
+    async function fetchVerse(ref) {
+      const url = `https://bible-api.com/${encodeURIComponent(ref)}`;
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.verses) {
+          return `<strong>${data.reference}</strong><br>${data.verses.map(v => `<b>${v.verse}.</b> ${v.text}`).join('')}`;
+        } else if (data.text) {
+          return `<strong>${data.reference}</
