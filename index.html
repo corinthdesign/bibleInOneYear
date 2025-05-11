@@ -248,4 +248,25 @@
         if (data.verses) {
           return `<strong>${data.reference}</strong><br>${data.verses.map(v => `<b>${v.verse}.</b> ${v.text}`).join('')}`;
         } else if (data.text) {
-          return `<strong>${data.reference}</
+          return `<strong>${data.reference}</strong><br>${data.text}`;
+        } else {
+          return `<em>Could not load verse for "${ref}".</em>`;
+        }
+      } catch (error) {
+        return `<em>Error loading verse: ${ref}</em>`;
+      }
+    }
+
+    function formatScripture(text) {
+      return text.split(',').map(ref => ref.trim());
+    }
+
+    function getDayOfYear(date) {
+      const start = new Date(date.getFullYear(), 0, 0);
+      const diff = date - start;
+      const oneDay = 24 * 60 * 60 * 1000;
+      return Math.floor(diff / oneDay);
+    }
+  </script>
+</body>
+</html>
