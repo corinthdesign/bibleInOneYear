@@ -1,60 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bible in One Year</title>
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"/>
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Inter', sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: 'Inter', sans-serif;
       text-align: center;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-      position: relative;
+      background: white;
+      color: #000;
       opacity: 0;
-      transition: opacity 0.8s ease-in-out;
-      background-color: white;
+      transition: opacity 1s ease-in;
     }
 
     .background {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: no-repeat center center fixed;
+      width: 100vw;
+      height: 100vh;
       background-size: cover;
+      background-position: center;
+      z-index: -1;
       opacity: 0;
-      transition: opacity 1s ease-in-out;
-      z-index: -2;
+      transition: opacity 1.5s ease-in;
+      background-color: white;
+      background-blend-mode: overlay;
     }
 
-    .overlay {
+    #loader {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.75);
-      z-index: -1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      font-family: 'Inter', sans-serif;
+      color: #333;
+    }
+
+    #data-container-1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding-top: 4rem;
     }
 
     h1 {
-      font-family: 'Boldonse', sans-serif;
-      font-size: 2.5rem;
-      font-weight: bold;
+      font-family: 'Boldonse', serif;
+      font-size: 3rem;
+      margin-top: 2rem;
       text-shadow: 1px 0 0 #fff;
     }
 
@@ -67,91 +68,88 @@
 
     .scriptures {
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 0.5rem;
+      gap: 1rem;
       flex-wrap: wrap;
-      max-width: 90%;
+      justify-content: center;
+      margin-top: 1rem;
+      padding: 1rem;
     }
 
     .Data {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 35%;
-      min-width: 180px;
-      flex: 1;
+      background: linear-gradient(white, #f0f0f0);
+      padding: 1.5rem;
+      border-radius: 8px;
+      max-width: 300px;
+      flex: 1 1 auto;
+      color: #000;
+      overflow-wrap: break-word;
+      white-space: normal;
     }
 
     .Data h4 {
-      font-size: 1.3rem;
-      font-weight: 500;
-      background: linear-gradient(135deg, #ffffff, #f8f8f8);
-      color: black;
-      padding: 0.8rem 1.2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      opacity: 0;
-      animation: fadeIn 0.8s ease-out forwards;
-      white-space: normal;
-      overflow-wrap: break-word;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 1px 0 0 #fff;
+    }
+
+    .click-icon {
+      font-size: 0.85rem;
+      margin-right: 0.4rem;
+      transition: transform 0.3s ease;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .Data h4.open .click-icon {
+      transform: rotate(90deg);
+    }
+
+    .verse-container {
+      display: none;
+      animation: fadeIn 0.5s ease-in forwards;
+    }
+
+    .verse-text {
+      font-size: 0.95rem;
+      text-align: left;
+      margin-top: 0.5rem;
+    }
+
+    .close-btn {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 2px 6px;
+      background-color: #ccc;
+      color: #000;
+      border-radius: 4px;
+      font-size: 0.8rem;
       cursor: pointer;
     }
 
-    .Data .verse-text {
-      font-size: 1rem;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
-      background: #ffffffda;
-      border-radius: 6px;
-      color: #333;
-      text-align: left;
-      max-width: 100%;
-      display: none;
-    }
-
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-
-    .Data:nth-child(1) h4 { animation-delay: 0.2s; }
-    .Data:nth-child(2) h4 { animation-delay: 0.4s; }
-    .Data:nth-child(3) h4 { animation-delay: 0.6s; }
 
     @media (max-width: 600px) {
-      #BibleData h4 {
-        font-size: 1.5rem;
-      }
-
       .scriptures {
         flex-direction: column;
-        align-items: center;
+        gap: 1rem;
       }
-
-      .Data {
-        max-width: 90%;
-      }
-
       .Data h4 {
-        font-size: 1.1rem;
-        padding: 0.6rem 1rem;
+        white-space: normal;
       }
     }
   </style>
 </head>
 <body>
-
   <div class="background"></div>
-  <div class="overlay"></div>
-
-  <h1>Bible in One Year</h1>
+  <div id="loader">Loading today's scriptures...</div>
   <div id="data-container-1"></div>
 
   <script>
@@ -161,15 +159,20 @@
     });
 
     function loadBackgroundImage() {
-      const imageUrl = 'https://picsum.photos/1600/900?random';
+      const imageUrl = 'https://picsum.photos/1600/900?blur';
       const backgroundDiv = document.querySelector('.background');
       const img = new Image();
       img.src = imageUrl;
       img.onload = () => {
         backgroundDiv.style.backgroundImage = `url(${imageUrl})`;
         backgroundDiv.style.opacity = "1";
-        document.body.style.opacity = "1";
+        finishLoading();
       };
+    }
+
+    function finishLoading() {
+      document.getElementById('loader').style.display = 'none';
+      document.body.style.opacity = '1';
     }
 
     function fetchData() {
@@ -178,41 +181,46 @@
       fetch(jsonFile)
         .then(response => response.json())
         .then(data => displayData(data))
-        .catch(error => console.error('Error fetching data:', error));
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          finishLoading();
+        });
     }
 
     function displayData(data) {
       const today = getDayOfYear(new Date());
       const todayData = data.find(entry => entry.Day === today);
 
-      if (todayData) {
-        const container = document.getElementById('data-container-1');
-
-        // Replace commas with line breaks
-        function formatScripture(text) {
-          return text.split(',').map(ref => ref.trim());
-        }
-
-        const output = `
-          <div id="BibleData"><h4>Day ${todayData.Day} | Today's Passages</h4></div>
-          <div class="scriptures">
-            ${createScriptureBlock("Old Testament", todayData["Old Testament"])}
-            ${createScriptureBlock("New Testament", todayData["New Testament"])}
-            ${createScriptureBlock("Psalms & Proverbs", todayData["Psalms & Proverbs"])}
-          </div>
-        `;
-
-        container.innerHTML = output;
-        attachVerseClickHandlers();
+      if (!todayData) {
+        console.error('No scripture data found for today.');
+        return finishLoading();
       }
+
+      const container = document.getElementById('data-container-1');
+      const output = `
+        <h1>Bible in One Year</h1>
+        <div id="BibleData"><h4>Day ${todayData.Day} | Today's Passages</h4></div>
+        <div class="scriptures">
+          ${renderScripture("Old Testament", todayData["Old Testament"])}
+          ${renderScripture("New Testament", todayData["New Testament"])}
+          ${renderScripture("Psalms & Proverbs", todayData["Psalms & Proverbs"])}
+        </div>
+      `;
+
+      container.innerHTML = output;
+      attachVerseClickHandlers();
+      finishLoading();
     }
 
-    function createScriptureBlock(label, references) {
-      const formattedRefs = formatScripture(references);
+    function renderScripture(label, refString) {
+      const refs = refString.split(',').map(r => r.trim());
       return `
         <div class="Data">
-          <h4 data-refs='${JSON.stringify(formattedRefs)}'>${formattedRefs.join('<br>')}</h4>
-          <div class="verse-text"></div>
+          <h4 data-refs='${JSON.stringify(refs)}'><span class="click-icon">▶</span>${refs.join('<br>')}</h4>
+          <div class="verse-container">
+            <div class="verse-text"></div>
+            <div class="close-btn">Close</div>
+          </div>
         </div>
       `;
     }
@@ -221,21 +229,33 @@
       const headers = document.querySelectorAll('.Data h4');
       headers.forEach(header => {
         header.addEventListener('click', async () => {
-          const verseDiv = header.nextElementSibling;
-          if (verseDiv.style.display === 'block') {
-            verseDiv.style.display = 'none';
+          const container = header.nextElementSibling;
+          const verseDiv = container.querySelector('.verse-text');
+
+          header.classList.toggle('open');
+
+          if (container.style.display === 'block') {
+            container.style.display = 'none';
             return;
           }
 
           if (verseDiv.innerHTML.trim() === '') {
             const refs = JSON.parse(header.dataset.refs);
-            const versesHtml = await Promise.all(
-              refs.map(ref => fetchVerse(ref))
-            );
-            verseDiv.innerHTML = versesHtml.join("<hr>");
+            const versesHtml = await Promise.all(refs.map(fetchVerse));
+            verseDiv.innerHTML = versesHtml.join('<hr>');
           }
 
-          verseDiv.style.display = 'block';
+          container.style.display = 'block';
+          container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      document.querySelectorAll('.close-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const container = e.target.closest('.verse-container');
+          container.style.display = 'none';
+          const header = container.previousElementSibling;
+          header.classList.remove('open');
         });
       });
     }
@@ -257,14 +277,10 @@
       }
     }
 
-    function formatScripture(text) {
-      return text.split(',').map(ref => ref.trim());
-    }
-
     function getDayOfYear(date) {
       const start = new Date(date.getFullYear(), 0, 0);
       const diff = date - start;
-      const oneDay = 24 * 60 * 60 * 1000;
+      const oneDay = 1000 * 60 * 60 * 24;
       return Math.floor(diff / oneDay);
     }
   </script>
