@@ -1,134 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bible in One Year</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <style>
     body {
+      font-family: 'Inter', sans-serif;
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      text-align: center;
-      background: white;
-      color: #000;
-      opacity: 0;
-      transition: opacity 1s ease-in;
-    }
-
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      padding: 0;
+      background: #fff url() center center no-repeat;
       background-size: cover;
-      background-position: center;
-      z-index: -1;
-      opacity: 0;
-      transition: opacity 1.5s ease-in;
-      background-color: white;
-      background-blend-mode: overlay;
-    }
-
-    #loader {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 1.5rem;
-      font-family: 'Inter', sans-serif;
-      color: #333;
-    }
-
-    #data-container-1 {
+      position: relative;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding-top: 4rem;
+      transition: background 1s ease-in-out;
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.75);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
     }
 
     h1 {
       font-family: 'Boldonse', serif;
-      font-size: 3rem;
-      margin-top: 2rem;
+      font-size: 2.8rem;
       text-shadow: 1px 0 0 #fff;
+      margin-top: 2rem;
     }
 
     #BibleData h4 {
-      margin: 0 1rem;
+      font-size: 2rem;
       font-weight: bold;
-      font-size: 2.2rem;
       text-shadow: 1px 0 0 #fff;
+    }
+
+    #BibleData {
+      text-align: center;
+      margin: 1rem auto 0;
     }
 
     .scriptures {
       display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
       justify-content: center;
-      margin-top: 1rem;
-      padding: 1rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 2rem;
     }
 
     .Data {
-      background: linear-gradient(white, #f0f0f0);
-      padding: 1.5rem;
-      border-radius: 8px;
-      max-width: 300px;
-      flex: 1 1 auto;
+      background: linear-gradient(to bottom right, #ffffff, #f0f0f0);
       color: #000;
-      overflow-wrap: break-word;
-      white-space: normal;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 300px;
+      width: 100%;
     }
 
-    .Data h4 {
-      cursor: pointer;
-      font-size: 1.1rem;
+    .reference {
       font-weight: 600;
-      margin-bottom: 0.5rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-shadow: 1px 0 0 #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      position: relative;
     }
 
-    .click-icon {
-      font-size: 0.85rem;
-      margin-right: 0.4rem;
-      transition: transform 0.3s ease;
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    .Data h4.open .click-icon {
-      transform: rotate(90deg);
-    }
-
-    .verse-container {
-      display: none;
-      animation: fadeIn 0.5s ease-in forwards;
+    .reference span.icon {
+      margin-left: 0.4rem;
+      font-size: 1rem;
     }
 
     .verse-text {
+      margin-top: 1rem;
       font-size: 0.95rem;
-      text-align: left;
-      margin-top: 0.5rem;
+      line-height: 1.4;
+      display: none;
+      animation: fadeIn 0.8s ease forwards;
     }
 
     .close-btn {
-      display: inline-block;
-      margin-top: 0.5rem;
-      padding: 2px 6px;
-      background-color: #ccc;
-      color: #000;
+      display: block;
+      margin: 1rem auto 0;
+      background: none;
+      border: 1px solid #000;
+      padding: 0.3rem 0.6rem;
+      cursor: pointer;
       border-radius: 4px;
       font-size: 0.8rem;
-      cursor: pointer;
     }
 
     @keyframes fadeIn {
@@ -136,151 +105,114 @@
       to { opacity: 1; }
     }
 
-    @media (max-width: 600px) {
+    @media only screen and (max-width: 600px) {
       .scriptures {
         flex-direction: column;
-        gap: 1rem;
-      }
-      .Data h4 {
-        white-space: normal;
+        align-items: center;
       }
     }
   </style>
 </head>
 <body>
-  <div class="background"></div>
-  <div id="loader">Loading today's scriptures...</div>
-  <div id="data-container-1"></div>
+  <div class="overlay"></div>
+  <h1>Bible in One Year</h1>
+  <div id="BibleData"></div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      loadBackgroundImage();
+      setBackground();
       fetchData();
     });
 
-    function loadBackgroundImage() {
-      const imageUrl = 'https://picsum.photos/1600/900?blur';
-      const backgroundDiv = document.querySelector('.background');
+    function setBackground() {
+      const imageUrl = `https://picsum.photos/1920/1080?random=${Math.floor(Math.random() * 1000)}`;
       const img = new Image();
       img.src = imageUrl;
       img.onload = () => {
-        backgroundDiv.style.backgroundImage = `url(${imageUrl})`;
-        backgroundDiv.style.opacity = "1";
-        finishLoading();
+        document.body.style.backgroundImage = `url(${imageUrl})`;
+        document.body.style.opacity = 0;
+        document.body.style.transition = 'opacity 1s ease-in';
+        requestAnimationFrame(() => {
+          document.body.style.opacity = 1;
+        });
       };
-    }
-
-    function finishLoading() {
-      document.getElementById('loader').style.display = 'none';
-      document.body.style.opacity = '1';
     }
 
     function fetchData() {
       const jsonFile = 'https://raw.githubusercontent.com/corinthdesign/bibleInOneYear/main/bibleInOneYear.json';
-
       fetch(jsonFile)
         .then(response => response.json())
         .then(data => displayData(data))
-        .catch(error => {
-          console.error('Error fetching data:', error);
-          finishLoading();
-        });
+        .catch(error => console.error('Error fetching data:', error));
     }
 
     function displayData(data) {
       const today = getDayOfYear(new Date());
       const todayData = data.find(entry => entry.Day === today);
 
-      if (!todayData) {
-        console.error('No scripture data found for today.');
-        return finishLoading();
-      }
+      if (todayData) {
+        const container = document.getElementById('BibleData');
+        container.innerHTML = `<h4>Day ${todayData.Day} | Today's Passages</h4>`;
 
-      const container = document.getElementById('data-container-1');
-      const output = `
-        <h1>Bible in One Year</h1>
-        <div id="BibleData"><h4>Day ${todayData.Day} | Today's Passages</h4></div>
-        <div class="scriptures">
-          ${renderScripture("Old Testament", todayData["Old Testament"])}
-          ${renderScripture("New Testament", todayData["New Testament"])}
-          ${renderScripture("Psalms & Proverbs", todayData["Psalms & Proverbs"])}
-        </div>
-      `;
+        const sections = ['Old Testament', 'New Testament', 'Psalms & Proverbs'];
+        const scripturalContainer = document.createElement('div');
+        scripturalContainer.className = 'scriptures';
 
-      container.innerHTML = output;
-      attachVerseClickHandlers();
-      finishLoading();
-    }
+        sections.forEach(section => {
+          const block = document.createElement('div');
+          block.className = 'Data';
 
-    function renderScripture(label, refString) {
-      const refs = refString.split(',').map(r => r.trim());
-      return `
-        <div class="Data">
-          <h4 data-refs='${JSON.stringify(refs)}'><span class="click-icon">▶</span>${refs.join('<br>')}</h4>
-          <div class="verse-container">
-            <div class="verse-text"></div>
-            <div class="close-btn">Close</div>
-          </div>
-        </div>
-      `;
-    }
+          const ref = todayData[section].split(', ').join(',<br>');
 
-    function attachVerseClickHandlers() {
-      const headers = document.querySelectorAll('.Data h4');
-      headers.forEach(header => {
-        header.addEventListener('click', async () => {
-          const container = header.nextElementSibling;
-          const verseDiv = container.querySelector('.verse-text');
+          const refDiv = document.createElement('div');
+          refDiv.className = 'reference';
+          refDiv.innerHTML = `${ref} <span class="icon">▹</span>`;
+          refDiv.addEventListener('click', () => toggleVerse(block, todayData[section]));
 
-          header.classList.toggle('open');
+          const verseDiv = document.createElement('div');
+          verseDiv.className = 'verse-text';
 
-          if (container.style.display === 'block') {
-            container.style.display = 'none';
-            return;
-          }
-
-          if (verseDiv.innerHTML.trim() === '') {
-            const refs = JSON.parse(header.dataset.refs);
-            const versesHtml = await Promise.all(refs.map(fetchVerse));
-            verseDiv.innerHTML = versesHtml.join('<hr>');
-          }
-
-          container.style.display = 'block';
-          container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          block.appendChild(refDiv);
+          block.appendChild(verseDiv);
+          scripturalContainer.appendChild(block);
         });
-      });
 
-      document.querySelectorAll('.close-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const container = e.target.closest('.verse-container');
-          container.style.display = 'none';
-          const header = container.previousElementSibling;
-          header.classList.remove('open');
-        });
-      });
+        container.appendChild(scripturalContainer);
+      }
     }
 
-    async function fetchVerse(ref) {
-      const url = `https://bible-api.com/${encodeURIComponent(ref)}`;
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data.verses) {
-          return `<strong>${data.reference}</strong><br>${data.verses.map(v => `<b>${v.verse}.</b> ${v.text}`).join('')}`;
-        } else if (data.text) {
-          return `<strong>${data.reference}</strong><br>${data.text}`;
-        } else {
-          return `<em>Could not load verse for "${ref}".</em>`;
-        }
-      } catch (error) {
-        return `<em>Error loading verse: ${ref}</em>`;
+    function toggleVerse(block, reference) {
+      const verseDiv = block.querySelector('.verse-text');
+
+      if (verseDiv.style.display === 'block') {
+        verseDiv.style.display = 'none';
+        verseDiv.innerHTML = '';
+      } else {
+        const formattedRef = reference.split(',')[0].trim().replace(/\s+/g, '+');
+        fetch(`https://bible-api.com/${formattedRef}`)
+          .then(response => response.json())
+          .then(data => {
+            const verses = data.verses.map(v => `<p><strong>${v.book_name} ${v.chapter}:${v.verse}</strong> — ${v.text}</p>`).join('');
+            verseDiv.innerHTML = `${verses}<button class="close-btn" onclick="closeVerse(this)">Close</button>`;
+            verseDiv.style.display = 'block';
+          })
+          .catch(error => {
+            verseDiv.innerHTML = '<p>Scripture not found.</p>';
+            verseDiv.style.display = 'block';
+          });
       }
+    }
+
+    function closeVerse(btn) {
+      const verseDiv = btn.parentElement;
+      verseDiv.style.display = 'none';
+      verseDiv.innerHTML = '';
     }
 
     function getDayOfYear(date) {
       const start = new Date(date.getFullYear(), 0, 0);
       const diff = date - start;
-      const oneDay = 1000 * 60 * 60 * 24;
+      const oneDay = 24 * 60 * 60 * 1000;
       return Math.floor(diff / oneDay);
     }
   </script>
